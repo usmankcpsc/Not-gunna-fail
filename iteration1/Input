@@ -1,0 +1,18 @@
+package iteration1;
+
+import java.util.Scanner;
+
+public class Input {
+	private static Scanner keyboard = new Scanner(System.in);
+	private static String BASEDIR = "";
+	public static String getPath()
+	{
+		System.out.println("Enter String:");
+		return BASEDIR + keyboard.next();
+	}
+	public static String getType()
+	{
+		System.out.println("Enter Type:");
+		return keyboard.next();
+	}
+}
