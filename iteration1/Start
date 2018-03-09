@@ -1,0 +1,14 @@
+package iteration1;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class Start {
+	public static void main(String args[]) throws FileNotFoundException, IOException
+	{
+		File directory = new File(Input.getPath());
+		File[] contents = directory.listFiles();
+		ParseFile.Parse(contents, Input.getType());
+	}
+}
