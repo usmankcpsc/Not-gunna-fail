@@ -7,10 +7,11 @@ import java.io.IOException;
 
 public class ReadFile {
 	private String fileContent = "";
+	private Scanner reader;
 
 	public char[] getFileContent(File item) throws FileNotFoundException, IOException
 	{
-		Scanner reader = new Scanner(item);
+		reader = new Scanner(item);
 		String line = reader.nextLine();
 		while (reader.hasNextLine())
 		{
