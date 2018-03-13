@@ -48,6 +48,15 @@ public class ParseFile {
 				return false;
 			}
 			
+			public boolean visit(SimpleName node)
+			{
+				if (node.getFullyQualifiedName().toString().equalsIgnoreCase(type))
+				{
+					references++;
+				}
+				return false;
+			}
+			
 			public void endVisit(CompilationUnit node)
 			{
 				System.out.println(type + ". Declarations found: " + declarations + "; references found: " + references +".");
