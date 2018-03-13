@@ -7,7 +7,7 @@ public class Input {
 	private static String BASEDIR = "";
 	public static String getPath()
 	{
-		System.out.println("Enter String:");
+		System.out.println("Enter Path:");
 		return BASEDIR + keyboard.next();
 	}
 	public static String getType()
