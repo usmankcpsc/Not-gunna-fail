@@ -9,6 +9,6 @@ public class Start {
 	{
 		File directory = new File(Input.getPath());
 		File[] contents = directory.listFiles();
-		ParseFile.Parse(contents, Input.getType());
+		ParseFile.getFile(contents);
 	}
 }
