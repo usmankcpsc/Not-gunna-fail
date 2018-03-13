@@ -3,21 +3,25 @@ package iteration1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import org.eclipse.jdt.core.dom.ExpressionMethodReference;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
+import org.eclipse.jdt.core.dom.*;
 
 public class ParseFile {
 	private static ASTParser parser = ASTParser.newParser(AST.JLS9);
 	private static ReadFile fileReader = new ReadFile();
 
-	public static void Parse(File[] contents, String type) throws FileNotFoundException, IOException
+	public static void getFile(File[] contents) throws FileNotFoundException, IOException
 	{
+		String type = Input.getType();
+		parser.setResolveBindings(true);
+		parser.setBindingsRecovery(true);
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		for (File item : contents)
 		{
 			if (item.isFile())
@@ -25,29 +29,29 @@ public class ParseFile {
 				char[] fileContent = fileReader.getFileContent(item);
 				parser.setSource(fileContent);
 				CompilationUnit cu = (CompilationUnit) parser.createAST(null);
-				
-				cu.accept(new ASTVisitor()
-				{
-					int declarations = 0;
-					int references = 0;
-					
-					public boolean visit(VariableDeclarationFragment node)
-					{
-						declarations++;
-						return false;
-					}
-					
-					public boolean visit(ExpressionMethodReference node)
-					{
-						references++;
-						return false;
-					}
-					public void endVisit(CompilationUnit node)
-					{
-						System.out.println(type + ". Declarations found: " + declarations + "; references found: " + references +".");
-					}
-				});
+				Parse(cu, type);
 			}
 		}
+	}
+	public static void Parse(CompilationUnit cu, String type)
+	{ 
+		cu.accept(new ASTVisitor()
+		{
+			int declarations, references = 0;
+			
+			public boolean visit(VariableDeclarationStatement node)
+			{
+				if (node.getType().toString().equalsIgnoreCase(type))
+				{
+					declarations++;
+				}
+				return false;
+			}
+			
+			public void endVisit(CompilationUnit node)
+			{
+				System.out.println(type + ". Declarations found: " + declarations + "; references found: " + references +".");
+			}
+		});
 	}
 }
